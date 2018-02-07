@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
-
+var expressSanitizer = require('express-sanitizer');
 var index = require('./routes/index');
 var feed = require('./routes/feeds');
 //var users = require('./routes/users');
@@ -34,6 +34,7 @@ app.use(passport.initialize());
 app.use(flash());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(expressSanitizer());
 
 // set up routes
 app.use('/', index);
