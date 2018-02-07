@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require('express-session')({
-  secret: 'blue dog',
+  secret: 'blue dog', // would put this in an .env variable usually, but keeping here makes it easier for others to run locally
   resave: false,
   saveUnitialized: false
 }));
@@ -49,7 +49,7 @@ passport.deserializeUser(User.deserializeUser());
 var Feed = require('./models/feed');
 
 // connect to db
-mongoose.connect('mongodb://localhost/rss-reader');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/rss-reader');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -67,6 +67,11 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+var server = app.listen(process.env.PORT || 8080, function () {
+  var port = server.address().port;
+  console.log("App now running on port", port);
 });
 
 module.exports = app;
