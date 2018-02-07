@@ -22,11 +22,10 @@ body {
   }
 }
 
-.valign {
-  margin: 0;
-  padding: 0;
-}
-
 .error-msg {
   text-align: center;
+}
+
+.welcome {
+  margin-top: 6px;
 }

@@ -126,7 +126,7 @@ router.get('/login', function(req, res) {
 });
 
 // POST /login
-router.post('/login', passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), function(req, res, next) {
+router.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login', failureFlash: true }), function(req, res, next) {
   req.session.save(function(err) {
     if (err) {
       return next(err);
