@@ -9,7 +9,8 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var flash = require('connect-flash');
 
-var routes = require('./routes/index');
+var index = require('./routes/index');
+var feed = require('./routes/feeds');
 //var users = require('./routes/users');
 
 var app = express();
@@ -34,13 +35,18 @@ app.use(flash());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+// set up routes
+app.use('/', index);
+app.use('/feed', feed);
 
 // set up passport
 var User = require('./models/user');
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+// import other db models
+var Feed = require('./models/feed');
 
 // connect to db
 mongoose.connect('mongodb://localhost/rss-reader');

@@ -1,0 +1,33 @@
+extends layout
+
+block content
+    .container-fluid
+        .row
+            .col-md-2
+            .col-md-8
+                h1 Your RSS Feeds
+                br
+            .col-md-2
+        .row
+            .col-md-2
+            .col-md-8
+                ul.list-group
+                    for feed in feeds
+                        li.list-group-item.d-flex.justify-content-between.align-items-center #{feed.url}
+                            form(role='form', action='/feed/remove/#{feed._id}', method='post')
+                                input.btn.btn-danger.float-right(type='submit', value='Delete')
+            .col-md-2
+        br
+        br
+        .row
+            .col-md-2
+            .col-md-8
+                form(role='form', action='/feed/create', method='post')
+                    .form-group
+                        input.form-control(type='text', name='url', placeholder='Add a new RSS feed')
+                    input.btn.btn-success.float-right(type='submit', value='Add Feed')
+                    a(href='/')
+                        button.btn.btn-default(type='button') Back
+            .col-md-2
+
+        

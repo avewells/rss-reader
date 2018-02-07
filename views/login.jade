@@ -1,16 +1,33 @@
 extends layout
 
 block content
-    .container
-        h1 Login
-        p.lead Welcome to RSS-Reader
-        br
-        form(role='form', action='/login', method='post')
-            .form-group
-                input.form-control(type='text', name='username', placeholder='Username')
-            .form-group
-                input.form-control(type='password', name='password', placeholder='Password')
-            button.btn.btn-default(type='submit') Submit
-            &nbsp;
-            a(href='/')
-                button.btn.btn-primary(type='button') Cancel
+    .container-fluid
+        .row
+            .col-md-4
+            .col-md-4
+                h1 Login
+                p.lead Welcome to RSS-Reader
+                br
+            .col-md-4
+        .row
+            .col-md-4
+            .col-md-4
+                form(role='form', action='/login', method='post')
+                    .form-group
+                        input.form-control(type='text', name='username', placeholder='Username')
+                    .form-group
+                        input.form-control(type='password', name='password', placeholder='Password')
+                    button.btn.btn-primary.float-right(type='submit') Submit
+                    a(href='/')
+                        button.btn.btn-default.float-left(type='button') Cancel
+            .col-md-4
+        .row
+            .col-md-4
+            .col-md-4
+                hr
+            .col-md-4
+        .row
+            .col-md-4
+            .col-md-4
+                p Don't have an account? 
+                    a(href='/register') Register here

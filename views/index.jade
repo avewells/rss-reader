@@ -1,10 +1,89 @@
 extends layout
 
 block content
-  if (!user)
-    a(href="/login") Login
-    br
-    a(href="/register") Register
-  if (user)
-    p Welcome, #{user.username}
-    a(href="/logout") Logout
+  if (newUser)
+    .container-fluid
+      .row
+        .col-md-2
+        .col-md-8
+          h1 RSS-Reader
+        .col-md-2
+      hr
+      .row
+        .col-md-2
+        .col-md-8
+          p.lead.float-left.valign Welcome, #{user.username}.
+          a(href='/logout')
+            button.btn.btn-default.float-right.valign(type='button') Logout
+        .col-md-2
+      br
+      br
+      .row
+        .col-md-2
+        .col-md-8
+          p.text-center Whoops! Looks like you haven't added any valid RSS feeds yet. 
+            a(href='/feed') Add some now!
+        .col-md-2
+  else if (user)
+    .container-fluid
+      .row
+        .col-md-2
+        .col-md-8
+          h1 RSS-Reader
+        .col-md-2
+      hr
+      .row
+        .col-md-2
+        .col-md-8
+          p.lead.float-left.valign Welcome, #{user.username}.
+          a(href='/logout')
+            button.btn.btn-default.float-right.valign(type='button') Logout
+        .col-md-2
+      .row
+        .col-md-2
+        .col-md-8
+          .card-group
+            .card
+              .card-header.text-center Articles
+              .card-body
+                h1.card-title.text-center #{dash.articleCount}
+            .card
+              .card-header.text-center Articles with Images
+              .card-body
+                h1.card-title.text-center #{dash.imgCount}
+            .card
+              .card-header.text-center Newest Post
+              .card-body
+                h2.card-title.text-center #{dash.newestPost}
+            .card
+              .card-header.text-center Oldest Post
+              .card-body
+                h2.card-title.text-center #{dash.oldestPost}
+        .col-md-2
+      br
+      br
+      .row
+        .col-md-2
+        .col-md-8
+          .dropdown.float-left
+            button.btn.dropdown-toggle(type='button', id='sortMenu', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Sort Articles
+            div.dropdown-menu(aria-labelledby='sortMenu')
+              a.dropdown-item(href='?sort=date') Date
+              a.dropdown-item(href='?sort=title') Title
+              a.dropdown-item(href='?sort=desc') Description
+          a(href='/feed')
+            button.btn.btn-primary.float-right(type='button') Add Feed
+        .col-md-2
+      .row
+        .col-md-2
+        .col-md-8.card-columns
+          for post in posts
+            .card
+              - if(post.img != '')
+                img.card-img-top(src="#{post.img}" alt="#{post.contentSnippet}")
+              .card-body
+                a(href="#{post.link}")
+                  h5.card-title #{post.title}
+                h6.card-subtitle.text-muted #{post.prettyDate}
+                p.card-text #{post.contentSnippet}
+        .col-md-2
