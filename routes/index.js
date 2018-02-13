@@ -25,7 +25,7 @@ router.get('/', function(req, res, next) {
   if (req.user) {
     Feed.find({ _username: req.user.username }, function(err, feeds) {
       if (err) {
-        res.send(err);
+        res.render('error', { error: err.message });
       } else {
         // iterate over all user's feeds and attempt to parse them
         var combinedPosts = [];
@@ -100,7 +100,7 @@ router.get('/', function(req, res, next) {
 
 // GET: /register
 router.get('/register', function(req, res) {
-  res.render('register', {});
+  res.render('register');
 });
 
 // POST: /register
@@ -110,11 +110,6 @@ router.post('/register', function(req, res) {
       return res.render('register', { error: err.message });
     }
     passport.authenticate('local')(req, res, function() {
-      req.session.save(function(err) {
-        if (err) {
-          return next(err);
-        }
-      });
       res.redirect('/');
     });
   });
@@ -126,14 +121,7 @@ router.get('/login', function(req, res) {
 });
 
 // POST /login
-router.post('/login', passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), function(req, res, next) {
-  req.session.save(function(err) {
-    if (err) {
-      return next(err);
-    }
-    res.redirect('/');
-  });
-});
+router.post('/login', passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login', failureFlash: true }));
 
 // GET /logout
 router.get('/logout', function(req, res) {

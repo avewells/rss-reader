@@ -8,7 +8,7 @@ html
   body
     if (error && error.length > 0)
       br
-      h4.error-msg= error
+      div.error-msg.alert.alert-danger= error
       br
     block content
 

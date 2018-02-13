@@ -11,7 +11,7 @@ router.get('/', function(req, res) {
     if (req.user) {
         Feed.find({ _username: req.user.username }, function(err, feeds) {
             if (err) {
-                res.send(err);
+                res.render('error', { error: err.message });
             } else {
                 res.render('feed', { feeds: feeds });
             }
