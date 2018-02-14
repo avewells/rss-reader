@@ -28,3 +28,10 @@ Then navigate to http://localhost:8080
 - Jade for view templating
 - Bootstrap for styling
 
+## TODO:
+- Base user auth on session token instead of user name
+- Change db layout to users, feeds, userfeeds tables
+- Move sorting, date formatting, dashboard logic to frontend
+- Use cache instead of reloading feeds from source
+- Lazy loading of feed
+
