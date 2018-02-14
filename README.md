@@ -34,4 +34,4 @@ Then navigate to http://localhost:8080
 - Move sorting, date formatting, dashboard logic to frontend
 - Use cache instead of reloading feeds from source
 - Lazy loading of feed
-
+- Refactor views into more-reusable components
