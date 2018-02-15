@@ -4,8 +4,6 @@
 
 var express = require('express');
 var passport = require('passport');
-var User = require('../models/user');
-var Feed = require('../models/feed');
 
 exports.isAuth = function(req, res, next) {
     if (req.isAuthenticated()) {
