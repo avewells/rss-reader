@@ -25,6 +25,9 @@ block content
             a(href='/feed') Add some now!
         .col-md-2
   else if (user)
+    script.
+      var localdata = !{JSON.stringify(posts)}
+      
     .container-fluid
       .row
         .col-md-2
@@ -68,9 +71,9 @@ block content
           .dropdown.float-left
             button.btn.dropdown-toggle(type='button', id='sortMenu', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Sort Articles
             div.dropdown-menu(aria-labelledby='sortMenu')
-              a.dropdown-item(href='?sort=date') Date
-              a.dropdown-item(href='?sort=title') Title
-              a.dropdown-item(href='?sort=desc') Description
+              a.dropdown-item(onclick="sortPosts('date')") Date
+              a.dropdown-item(onclick="sortPosts('title')") Title
+              a.dropdown-item(onclick="sortPosts('desc')") Description
           a(href='/feed')
             button.btn.btn-primary.float-right(type='button') Add Feed
         .col-md-2
