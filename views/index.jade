@@ -87,6 +87,6 @@ block content
               .card-body
                 a(href="#{post.link}")
                   h5.card-title #{post.title}
-                h6.card-subtitle.text-muted #{post.prettyDate}
+                h6.card-subtitle.text-muted #{moment(post.pubDate).format('MM/DD/YYYY HH:MM')}
                 p.card-text #{post.contentSnippet}
         .col-md-2

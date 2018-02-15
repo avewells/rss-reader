@@ -36,6 +36,9 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressSanitizer());
 
+// moment js
+app.locals.moment = require('moment');
+
 // set up routes
 app.use('/', index);
 app.use('/feed', feed);
