@@ -49,19 +49,19 @@ block content
             .card
               .card-header.text-center Articles
               .card-body
-                h1.card-title.text-center #{dash.articleCount}
+                h1#article-count.card-title.text-center
             .card
               .card-header.text-center Articles with Images
               .card-body
-                h1.card-title.text-center #{dash.imgCount}
+                h1#img-count.card-title.text-center
             .card
               .card-header.text-center Newest Post
               .card-body
-                h2.card-title.text-center #{dash.newestPost}
+                h2#newest-post.card-title.text-center
             .card
               .card-header.text-center Oldest Post
               .card-body
-                h2.card-title.text-center #{dash.oldestPost}
+                h2#oldest-post.card-title.text-center
         .col-md-2
       br
       br
@@ -87,6 +87,6 @@ block content
               .card-body
                 a(href="#{post.link}")
                   h5.card-title #{post.title}
-                h6.card-subtitle.text-muted #{moment(post.pubDate).format('MM/DD/YYYY HH:MM')}
+                h6.card-subtitle.text-muted #{moment(post.pubDate).format('MM/DD/YYYY HH:mm')}
                 p.card-text #{post.contentSnippet}
         .col-md-2
