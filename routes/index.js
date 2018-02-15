@@ -4,6 +4,7 @@ var User = require('../models/user');
 var Feed = require('../models/feed');
 var Parser = require('rss-parser');
 var async = require('async');
+var auth = require('./auth');
 var parser = new Parser({
   customFields: {
     item: ['media:thumbnail', 'media:content', 'enclosure']
@@ -12,51 +13,44 @@ var parser = new Parser({
 var router = express.Router();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  // user is logged in so go ahead and grab posts
-  if (req.user) {
-    Feed.find({ _username: req.user.username }, function(err, feeds) {
-      if (err) {
-        res.render('error', { error: err.message });
-      } else {
-        // iterate over all user's feeds and attempt to parse them
-        var combinedPosts = [];
-        async.forEach(feeds, function(feed, callback) {
-          parser.parseURL(feed.url, function(err, posts) {
-            if (!err) {
-              for (item in posts.items) {
-                // create a new image key within object to store url for feed if it's there
-                // according to docs, the images should be in <enclosure> but several don't do this
-                posts.items[item].img = '';
-                if (posts.items[item]['media:thumbnail']) {
-                  posts.items[item].img = posts.items[item]['media:thumbnail']['$'].url;
-                } else if (posts.items[item]['media:content']) {
-                  posts.items[item].img = posts.items[item]['media:content']['$'].url;
-                } else if (posts.items[item].enclosure) {
-                  posts.items[item].img = posts.items[item].enclosure.url;
-                }
-                combinedPosts.push(posts.items[item]);
+router.get('/', auth.isAuth, function(req, res) {
+  // grab all posts for logged-in user
+  Feed.find({ _username: req.user.username }, function(err, feeds) {
+    if (err) {
+      res.render('error', { error: err.message });
+    } else {
+      // iterate over all user's feeds and attempt to parse them
+      var combinedPosts = [];
+      async.forEach(feeds, function(feed, callback) {
+        parser.parseURL(feed.url, function(err, posts) {
+          if (!err) {
+            for (item in posts.items) {
+              // create a new image key within object to store url for feed if it's there
+              // according to docs, the images should be in <enclosure> but several don't do this
+              posts.items[item].img = '';
+              if (posts.items[item]['media:thumbnail']) {
+                posts.items[item].img = posts.items[item]['media:thumbnail']['$'].url;
+              } else if (posts.items[item]['media:content']) {
+                posts.items[item].img = posts.items[item]['media:content']['$'].url;
+              } else if (posts.items[item].enclosure) {
+                posts.items[item].img = posts.items[item].enclosure.url;
               }
+              combinedPosts.push(posts.items[item]);
             }
-            // let async know we are done with this part
-            callback();
-          });
-        }, function(err) {
-          // calculate dashboard statistics to pass to frontend as well
-          var articleCount = combinedPosts.length;
-          
-          // new users will not have any so break here
-          if (articleCount == 0) {
-            res.render('index', { newUser: true, user: req.user });
-          } else {
-            res.render('index', { user: req.user, posts: combinedPosts });
           }
+          // let async know we are done with this part
+          callback();
         });
-      }
-    });
-  } else {
-    res.render('login');
-  }
+      }, function(err) {
+        // new users will not have any so break here
+        if (combinedPosts.length == 0) {
+          res.render('index', { newUser: true, user: req.user });
+        } else {
+          res.render('index', { user: req.user, posts: combinedPosts });
+        }
+      });
+    }
+  });
 });
 
 // GET: /register
