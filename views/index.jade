@@ -83,7 +83,7 @@ block content
           for post in posts
             .card
               - if(post.img != '')
-                img.card-img-top(src="#{post.img}" alt="#{post.contentSnippet}")
+                img.card-img-top.lazy(data-src="#{post.img}" alt="#{post.contentSnippet}")
               .card-body
                 a(href="#{post.link}")
                   h5.card-title #{post.title}

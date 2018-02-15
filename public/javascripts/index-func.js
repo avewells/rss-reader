@@ -47,4 +47,7 @@ $(function() {
 
     // go ahead and sort by date for default
     sortPosts('date');
+
+    // set images for lazy loading
+    $(".lazy").Lazy();
 });
