@@ -27,11 +27,13 @@ Then navigate to http://localhost:8080
 - Node.js/Express for routing/controller
 - Jade for view templating
 - Bootstrap for styling
+- jQuery for frontend
 
 ## TODO:
-- Base user auth on session token instead of user name
+- ~~Base user auth on session token instead of user name~~
 - Change db layout to users, feeds, userfeeds tables
-- Move sorting, date formatting, dashboard logic to frontend
-- Use cache instead of reloading feeds from source
-- Lazy loading of feed
+- ~~Move sorting, date formatting, dashboard logic to frontend~~
+- ~~Change having to re-fetch sources so often~~
+- Use cache and background runner to always update a user's feeds
+- ~~Lazy loading of feed~~
 - Refactor views into more-reusable components
